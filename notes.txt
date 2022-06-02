@@ -1,0 +1,6 @@
+doctrine --> base de donnees
+
+symfony console doctrine:migration:execute DoctrineMigrations\Version20220531090207 --up        
+
+------------------------------------------------------------------------------------------------------------
+composer require doctrine/orm
