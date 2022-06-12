@@ -2,19 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name:"role", type:"string")]
 #[ORM\DiscriminatorMap(["etudiant" => "Etudiant", "ac" => "AC", "rp" => "RP"])]
-
+/**
+* @UniqueEntity(
+*    fields= {"email"},
+*    message= "Email dejà utilisé"
+*  )
+*/
 class User extends Personne implements UserInterface, PasswordAuthenticatedUserInterface
 {
-   
+    #[Assert\EqualTo(propertyPath:"password", message: "Les deux mots de passes se sont pas identiques !")]
+    public $confirm_password;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     protected $email;
@@ -23,6 +31,7 @@ class User extends Personne implements UserInterface, PasswordAuthenticatedUserI
     protected $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Assert\Length(min: 8, minMessage: "Votre mot de passe doit avoir minimum 8 caractères !")]
     protected $password;
 
     public function getId(): ?int
