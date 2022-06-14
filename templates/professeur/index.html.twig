@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Professeurs{% endblock %}
+
+{% block body %}
+    <p class="display-4 text-center mb-5">{{ title }} <a href="/professeur/add" class="text-primary text-decoration-none">+</a></p>
+    <table class="table text-center">
+        <thead class=""> 
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Prénom(s)</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Grade</th>
+                <th scope="col" colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for professeur in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ professeur.id }}</td>
+                    <td>{{ professeur.prenom }}</td>
+                    <td>{{ professeur.nom }}</td>
+                    <td>{{ professeur.grade }}</td>
+                    <td>
+                        <a href="{{ path('professeur-details', {"id" : professeur.id}) }}" class="btn btn-outline-primary">détails</a>
+                        <a href="{{ path('professeur-edit', {"id" : professeur.id}) }}" class="btn btn-outline-warning offset-1">modifier</a>
+                        <a href="{{ path('professeur-delete', {"id" : professeur.id}) }}" class="btn btn-outline-danger offset-1">supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+    </table>
+
+    {# display navigation #}
+    <ul class="pagination">
+        <li class="page-item">
+            {{ knp_pagination_render(pagination) }}
+        </li>
+    </li>
+{% endblock %}

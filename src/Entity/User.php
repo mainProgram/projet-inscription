@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name:"role", type:"string")]
-#[ORM\DiscriminatorMap(["etudiant" => "Etudiant", "ac" => "AC", "rp" => "RP"])]
+#[ORM\DiscriminatorMap(["personne" => "Personne", "user" => "User", "etudiant" => "Etudiant", "ac" => "AC", "rp" => "RP"])]
 /**
 * @UniqueEntity(
 *    fields= {"email"},

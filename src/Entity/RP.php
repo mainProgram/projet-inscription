@@ -10,9 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RPRepository::class)]
 class RP extends User
 {
-    #[ORM\OneToMany(mappedBy: 'rp', targetEntity: Inscription::class)]
-    private $inscriptions;
-
     #[ORM\OneToMany(mappedBy: 'rp', targetEntity: Professeur::class)]
     private $professeurs;
 

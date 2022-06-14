@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du professeur{% endblock %}
+
+{% block body %}
+    <p class="display-4 text-center mb-5">Détails du professeur {{professeur.prenom}} {{professeur.nom }}</p>
+    <a class="btn btn-outline-secondary border rounded-pill w-25 mb-5 text-center" href="{{ path('professeur-affecter', {"id" : professeur.id}) }}">Affecter des classes et modules</a>
+    <table class="table text-center">
+        <thead class=""> 
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Prénom(s)</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Modules</th>
+                <th scope="col">Classes</th>
+                <th scope="col" colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <td>{{ professeur.id }}</td>
+            <td>{{ professeur.prenom }}</td>
+            <td>{{ professeur.nom }}</td>
+            <td>{{ professeur.grade }}</td>
+            <td>
+                {% for module in professeur.professeurClasses %}
+                    {{ module.module.nom }}<br>
+                {% endfor %}
+            </td>
+            <td>
+                {% for classe in professeur.professeurClasses %}
+                    {{ classe.classe.libelle }}<br>
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{{ path('professeur-edit', {"id" : professeur.id}) }}" class="btn btn-outline-warning offset-1">modifier</a>
+                <a href="{{ path('professeur-delete', {"id" : professeur.id}) }}" class="btn btn-outline-danger offset-1">supprimer</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affecter classes{% endblock %}
+
+{% block body %}
+    <p class="display-6 text-center mb-5">{{ title }} {{professeur.prenom}} {{professeur.nom}}
+    </p>
+    <a href="/professeur" class="btn btn-outline-secondary border rounded-pill w-25 mb-5 text-center">Liste des professeurs</a>
+    <form class="" method="post">
+        <div class="row align-items-center justify-content-center">
+            <div class="card  w-50 mt-3">
+                <div class="card-body">
+                    {% for module in modules %}
+                        <h4>{{ module.nom }}</h4>
+                        <div class="mb-3">
+                            <label class=" font-weight-bold" for="">Classes</label>
+                            <select name="classe_id{{module.id}}[]" id="" multiple  class="form-select">
+                            {% for classe in classes %}
+                                <option value="{{classe.id}}">{{classe.libelle}}</option>
+                            {% endfor %}
+                            </select> 
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="btn btn-outline-primary mt-4 mb-5">Affecter</button>
+        </div> 
+    </form>  
+{% endblock %}

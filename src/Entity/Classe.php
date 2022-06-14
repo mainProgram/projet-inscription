@@ -33,10 +33,14 @@ class Classe
     #[ORM\ManyToMany(targetEntity: Professeur::class, mappedBy: 'classes')]
     private $professeurs;
 
+    #[ORM\OneToMany(mappedBy: 'classe', targetEntity: ProfesseurClasses::class)]
+    private $professeurClasses;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
         $this->professeurs = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +148,41 @@ class Classe
     {
         if ($this->professeurs->removeElement($professeur)) {
             $professeur->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->libelle;
+    }
+
+    /**
+     * @return Collection<int, ProfesseurClasses>
+     */
+    public function getProfesseurClasses(): Collection
+    {
+        return $this->professeurClasses;
+    }
+
+    public function addProfesseurClass(ProfesseurClasses $professeurClass): self
+    {
+        if (!$this->professeurClasses->contains($professeurClass)) {
+            $this->professeurClasses[] = $professeurClass;
+            $professeurClass->setClasse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseurClass(ProfesseurClasses $professeurClass): self
+    {
+        if ($this->professeurClasses->removeElement($professeurClass)) {
+            // set the owning side to null (unless already changed)
+            if ($professeurClass->getClasse() === $this) {
+                $professeurClass->setClasse(null);
+            }
         }
 
         return $this;

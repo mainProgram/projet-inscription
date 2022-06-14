@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}   Etudiants{% endblock %}
+
+{% block body %}
+    <p class="display-4 text-center mb-5">{{ title }} 
+    {% if is_granted("ROLE_AC") %}
+        <a href="/etudiant/add" class="text-primary text-decoration-none">+</a>
+    {% endif %}
+    </p>
+    <table class="table text-center">
+        <thead class=""> 
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Matricule</th>
+                <th scope="col">Prénom(s)</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Sexe</th>
+                <th scope="col">Adresse</th>
+                <th scope="col" colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for etudiant in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ etudiant.id }}</td>
+                    <td>{{ etudiant.matricule }}</td>
+                    <td>{{ etudiant.prenom }}</td>
+                    <td>{{ etudiant.nom }}</td>
+                    {% if etudiant.sexe == 0 %}
+                        <td>Masculin</td>
+                    {% else %}
+                        <td>Féminin</td>
+                    {% endif %}
+                    <td>{{ etudiant.adresse }}</td>
+                    {# <td>
+                        <a href="{{ path('etudiant-edit', {"id" : etudiant.id}) }}" class="btn btn-outline-warning">modifier</a>
+                        <a href="{{ path('etudiant-delete', {"id" : etudiant.id}) }}" class="btn btn-outline-danger offset-1">supprimer</a>
+                    </td> #}
+                </tr>
+            {% endfor %}
+    </table>
+
+    {# display navigation #}
+    <ul class="pagination">
+        <li class="page-item">
+            {{ knp_pagination_render(pagination) }}
+        </li>
+    </li>
+{% endblock %}

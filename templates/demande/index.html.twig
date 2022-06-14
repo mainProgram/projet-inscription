@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes{% endblock %}
+
+{% block body %}
+    <p class="display-4 text-center mb-5">{{title }}</p>
+    {% if is_granted("ROLE_ETUDIANT") and pagination|length < 1 %}
+        <a class="btn btn-outline-secondary border rounded-pill w-25 mb-4 text-center" href="{{ path('formuler_demande') }}">+ Formuler une demande</a>
+    {% endif %}
+    
+    {% if (is_granted("ROLE_RP") and pagination.getTotalItemCount > 0) or (is_granted("ROLE_ETUDIANT") or is_granted("ROLE_AC"))%}
+        <table class="table text-center">
+            <thead> 
+                <tr>
+                    <th scope="col">Motif</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Détails</th>
+                    {% if is_granted("ROLE_AC") or is_granted("ROLE_RP")  %}
+                        <th scope="col">Etudiant</th>
+                    {% endif %}
+                    {% if is_granted("ROLE_ETUDIANT") or is_granted("ROLE_RP")  %}
+                        <th scope="col">Traitement</th>
+                    {% endif %}
+                    {% if is_granted("ROLE_RP")  %}
+                        <th scope="col" colspan="2">Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody> 
+                {% for demande in pagination %}
+                    <tr>
+                        {% if (demande.motif == 1) %}
+                            <td>Suspension</td>
+                        {% else %}
+                            <td>Annulation</td>
+                        {% endif %}
+                        <td>{{demande.date|date('d/m/Y')}}</td>
+                        <td>{{demande.detail}}</td>
+                        {% if is_granted("ROLE_AC") or is_granted("ROLE_RP")  %}
+                            <td>{{demande.etudiant.prenom }} {{ demande.etudiant.nom }}</td>
+                        {% endif %}
+
+                        {% if is_granted("ROLE_ETUDIANT") or is_granted("ROLE_RP")  %}
+                            {% if (demande.traitement) is same as 0  %}
+                                <td class="text-warning">En cours</td>
+                            {% elseif (demande.traitement) is same as 1 %}
+                                <td class="text-success">Accepté</td>
+                            {% else %}
+                                <td class="text-danger">Refusé</td>
+                            {% endif %}
+                        {% endif %}
+                        {% if is_granted("ROLE_RP")  %}
+                            <td>
+                                {% if demande.motif == 1 %}
+                                    <a href="{{ path('traiter_demande', {'id': demande.id }) }}" class="btn btn-block btn-outline-warning offset-1">suspension</a> 
+                                {% else %}
+                                    <a href="{{ path('traiter_demande', {'id': demande.id }) }}" class="btn btn-block btn-outline-secondary offset-1">annulation</a>
+                                {% endif %}
+                                <a href="{{ path('refuser_demande', {'id': demande.id }) }}" class="btn btn-block btn-outline-danger offset-1">refus</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h1 class="text-danger">Il n'y a pas encore de demandes !</h1>
+    {% endif %}
+{% endblock %}

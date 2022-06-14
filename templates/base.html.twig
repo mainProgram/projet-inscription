@@ -13,12 +13,93 @@
         {% endblock %}
 
         {% block javascripts %}
+        <!-- JavaScript Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body>
+        {% if app.user %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">FZSchool</a>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{{ path('security_home') }}">Accueil</a>
+                            </li>
+                            {# <?php if($Session::can_see(["ROLE_RP"])) { ?> #}
+                            {% if is_granted("ROLE_RP") %}
+                          <div class="dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Attachés</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ path('ac-list') }}">Liste</a></li>
+                                <li><a class="dropdown-item" href="{{ path('ac-add') }}">Ajout</a></li>
+                            </ul>
+                        </div>                       
+                        <div class="dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Professeurs</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ path('professeur-list') }}">Liste</a></li>
+                                <li><a class="dropdown-item" href="{{ path('professeur-add') }}">Ajout</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Modules</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ path('module-list') }}">Liste</a></li>
+                                <li><a class="dropdown-item" href="{{ path('module-add') }}">Ajout</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Classes</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ path('classe-list') }}">Liste</a></li>
+                                <li><a class="dropdown-item" href="{{ path('classe-add') }}">Ajout</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Années Scolaires</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ path('annee-list') }}">Liste</a></li>
+                                <li><a class="dropdown-item" href="{{ path('annee-add') }}">Ajout</a></li>
+                            </ul>
+                        </div>
+                    {# <?php } ?> #}
+                    {% endif %}
+
+                    {% if is_granted("ROLE_RP") or is_granted("ROLE_AC") %}
+                        <div class="dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Etudiants</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ path('etudiant-list') }}">Liste</a></li>
+                                {% if is_granted("ROLE_AC")%}
+                                    <li><a class="dropdown-item" href="{{ path('etudiant-add') }}">Inscription</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <li class="nav-item"><a class="nav-link text-white" href="demande">Demandes</a></li>
+                    {% endif %}
+
+                    {% if is_granted("ROLE_ETUDIANT") %} 
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="mesdemandes">Mes demandes</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                        <li class="nav-item d-flex">
+                            <a class="nav-link text-white" href="{{  path("app_logout")  }}">Déconnexion</a>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
         <div class="container jumbotron mt-5 ">
             {% block body %}{% endblock %}
+
         </div>
     </body>
 </html>

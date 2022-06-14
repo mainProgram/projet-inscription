@@ -23,10 +23,14 @@ class Professeur extends Personne
     #[ORM\JoinColumn(nullable: false)]
     private $rp;
 
+    #[ORM\OneToMany(mappedBy: 'professeur', targetEntity: ProfesseurClasses::class)]
+    private $professeurClasses;
+
     public function __construct()
     {
         $this->classes = new ArrayCollection();
         $this->modules = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
     }
 
     public function getGrade(): ?string
@@ -100,4 +104,35 @@ class Professeur extends Personne
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ProfesseurClasses>
+     */
+    public function getProfesseurClasses(): Collection
+    {
+        return $this->professeurClasses;
+    }
+
+    public function addProfesseurClass(ProfesseurClasses $professeurClass): self
+    {
+        if (!$this->professeurClasses->contains($professeurClass)) {
+            $this->professeurClasses[] = $professeurClass;
+            $professeurClass->setProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseurClass(ProfesseurClasses $professeurClass): self
+    {
+        if ($this->professeurClasses->removeElement($professeurClass)) {
+            // set the owning side to null (unless already changed)
+            if ($professeurClass->getProfesseur() === $this) {
+                $professeurClass->setProfesseur(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

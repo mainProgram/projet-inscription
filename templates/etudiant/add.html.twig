@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<legend class="mt-4">{{title}}<a href="{{ path('ac-list') }}" class="text-primary offset-5 text-decoration-none">Liste des étudiants</a></legend>
+
+    {{ form_start(form)}}
+
+    {{ form_row(form.prenom)}}
+    {{ form_row(form.nom)}}
+    {{ form_row(form.email)}}
+    {{ form_row(form.sexe)}}
+    {{ form_row(form.adresse)}}
+    <div class="mb-3">
+        <label class=" font-weight-bold" for="">Classe</label>
+        <select name="classe_id" id=""  class="form-select">
+        {% for classe in classes %}
+            <option value="{{classe.id}}">{{classe.libelle}}</option>
+        {% endfor %}
+            
+        </select> 
+    </div>
+
+    {% if editMode %}
+        <button class="btn btn-outline-primary">Ajouter</button>
+    {% else %}
+        <button class="btn btn-outline-primary">Editer</button>
+    {% endif %}
+    {{ form_end(form)}}
+
+{% endblock %}
+

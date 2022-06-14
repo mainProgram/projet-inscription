@@ -28,9 +28,13 @@ class Module
     #[ORM\JoinColumn(nullable: false)]
     private $rp;
 
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: ProfesseurClasses::class)]
+    private $professeurClasses;
+
     public function __construct()
     {
         $this->professeurs = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +101,36 @@ class Module
     public function setRp(?RP $rp): self
     {
         $this->rp = $rp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProfesseurClasse>
+     */
+    public function getProfesseurClasses(): Collection
+    {
+        return $this->professeurClasses;
+    }
+
+    public function addProfesseurClass(ProfesseurClasses $professeurClass): self
+    {
+        if (!$this->professeurClasses->contains($professeurClass)) {
+            $this->professeurClasses[] = $professeurClass;
+            $professeurClass->setModule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseurClass(ProfesseurClasses $professeurClass): self
+    {
+        if ($this->professeurClasses->removeElement($professeurClass)) {
+            // set the owning side to null (unless already changed)
+            if ($professeurClass->getModule() === $this) {
+                $professeurClass->setModule(null);
+            }
+        }
 
         return $this;
     }

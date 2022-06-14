@@ -22,6 +22,9 @@ class Personne
     #[ORM\Column(type: 'string', length: 50)]
     protected $prenom;
 
+    #[ORM\Column(type: 'boolean')]
+    protected $etat = 1;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,4 +53,12 @@ class Personne
 
         return $this;
     }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
 }

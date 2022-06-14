@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout annee{% endblock %}
+
+{% block body %}
+
+<legend class="mt-4">{{title}}<a href="{{ path('annee-list') }}" class="text-primary offset-5 text-decoration-none">Liste des années scolaires</a></legend>
+    {{ form_start(form) }}
+    {{ form_errors(form)}}
+    {{ form_row(form.libelle, {"attr" : { 'placeholder' : "Ex:2010-2011"}}) }}
+    {% if editMode %}
+        <button class="btn btn-outline-primary">Ajouter</button>
+    {% else %}
+        <button class="btn btn-outline-primary">Editer</button>
+    {% endif %} 
+    {{ form_end(form) }}
+
+{% endblock %}

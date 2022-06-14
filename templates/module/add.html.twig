@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout de modules{% endblock %}
+
+{% block body %}
+
+<legend class="mt-4">{{title}}<a href="{{ path('module-list') }}" class="text-primary offset-5 text-decoration-none">Liste des modules</a></legend>
+    {{ form_start(form) }}
+    {{ form_row(form.nom, {"attr" : { 'placeholder' : "Ex: Algorithmique"}}) }}
+    {% if editMode %}
+        <button class="btn btn-outline-primary">Ajouter</button>
+    {% else %}
+        <button class="btn btn-outline-primary">Editer</button>
+    {% endif %}
+    {{ form_end(form) }}
+
+{% endblock %}

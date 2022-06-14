@@ -25,9 +25,10 @@ class Inscription
     #[ORM\JoinColumn(nullable: false)]
     private $ac;
 
-    #[ORM\ManyToOne(targetEntity: RP::class, inversedBy: 'inscriptions')]
+    #[ORM\ManyToOne(targetEntity: Etudiant::class, inversedBy: 'inscriptions')]
     #[ORM\JoinColumn(nullable: false)]
-    private $rp;
+    private $etudiant;
+
 
     public function getId(): ?int
     {
@@ -78,6 +79,18 @@ class Inscription
     public function setRp(?RP $rp): self
     {
         $this->rp = $rp;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(?Etudiant $etudiant): self
+    {
+        $this->etudiant = $etudiant;
 
         return $this;
     }

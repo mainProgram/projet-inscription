@@ -2,24 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Annee;
+use App\Entity\Module;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AnneeType extends AbstractType
+class ModuleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('libelle')
+            ->add('nom')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Annee::class,
+            'data_class' => Module::class,
         ]);
     }
 }

@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
 class Etudiant extends User
 {
+    public $confirm_password;
+
     #[ORM\OneToMany(mappedBy: 'etudiant', targetEntity: Demande::class)]
     private $demandes;
 
@@ -22,9 +24,14 @@ class Etudiant extends User
     #[ORM\Column(type: 'string', length: 255)]
     private $matricule;
 
+    #[ORM\OneToMany(mappedBy: 'etudiant', targetEntity: Inscription::class)]
+    private $inscriptions;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
+        $this->insciptions = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     /**
@@ -89,6 +96,44 @@ class Etudiant extends User
     public function setMatricule(string $matricule): self
     {
         $this->matricule = $matricule;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Insciption>
+     */
+    public function getInsciptions(): Collection
+    {
+        return $this->insciptions;
+    }
+
+    /**
+     * @return Collection<int, Inscription>
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getEtudiant() === $this) {
+                $inscription->setEtudiant(null);
+            }
+        }
 
         return $this;
     }

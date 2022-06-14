@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DemandeRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
@@ -20,10 +21,10 @@ class Demande
     private $date;
 
     #[ORM\Column(type: 'boolean')]
-    private $etat;
+    private $etat = 1;
 
-    #[ORM\Column(type: 'boolean')]
-    private $traitement;
+    #[ORM\Column(type: 'integer')]
+    private $traitement = 0;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $detail;
@@ -81,7 +82,7 @@ class Demande
         return $this->traitement;
     }
 
-    public function setTraitement(bool $traitement): self
+    public function setTraitement(int $traitement): self
     {
         $this->traitement = $traitement;
 

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes{% endblock %}
+
+{% block body %}
+<p class="display-6 text-center mb-5">{{ title }}</p>
+    <a class="btn btn-outline-secondary border rounded-pill w-25 mb-5 text-center" href="{{ path('app_demande') }}">Lister mes demandes</a>
+    <div class="row align-items-center justify-content-center">
+        <div class="card  w-50 mt-3">
+            <div class="card-body">
+                {{ form_start(form)}}
+                {{ form_row(form.motif)}}
+                {{ form_row(form.detail)}}
+                <button class="btn btn-outline-primary">Ajouter</button>
+                {{ form_end(form)}}
+            </div>
+        </div>
+    </div>    
+
+{% endblock %}
